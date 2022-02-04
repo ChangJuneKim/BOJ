@@ -23,4 +23,16 @@
  <p>직사각형의 네 번째 점의 좌표를 출력한다.</p>
 
 
+### XOR로 접근 풀이
+const fs = require('fs');
+
+let X = 0, Y = 0;
+
+fs.readFileSync('/dev/stdin').toString().split('\n').forEach((line) => {
+    const [x, y] = line.split(' ').map(Number);
+    X ^= x;
+    Y ^= y;
+})
+
+console.log(X, Y);
 
