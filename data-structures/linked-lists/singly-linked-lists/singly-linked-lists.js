@@ -69,14 +69,16 @@ class SinglyLinkedList {
       return undefined;
     }
 
-    let currentHead = this.head;
-    this.head = currentHead.next;
-    this.length--;
+    const currentHead = this.head;
 
-    if (this.length === 0) {
+    this.head = currentHead.next;
+
+    if (this.length === 1) {
       this.tail = null;
     }
-    console.log(currentHead);
+
+    this.length--;
+
     return currentHead;
   }
 

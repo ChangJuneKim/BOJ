@@ -42,7 +42,7 @@ class Stack {
     }
     const newNode = new Node(value);
 
-    if (this.size === 0) {
+    if (this.isEmpty()) {
       this.bottom = newNode;
       this.top = newNode;
     } else {
@@ -78,12 +78,12 @@ class Stack {
     if (this.isEmpty()) return null;
     let current = this.top;
 
-    process.stdout.write('TOP ');
+    process.stdout.write('(TOP) ');
     while (current.next) {
       process.stdout.write(`${current.value} -> `);
       current = current.next;
     }
-    process.stdout.write(`${current.value} Bottom\n`);
+    process.stdout.write(`${current.value} (Bottom)\n`);
   }
 
   isFull() {
