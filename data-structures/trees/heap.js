@@ -15,9 +15,9 @@ class MaxBinaryHeap {
 
   // 현재 삽입한 노드가 루트까지 올라가거나, 부모보다 작은 값을 가지게 되거나, 둘 중 하나를 만족할때 까지 반복
   bubbleUp() {
-    if (currentIndex < 1) return;
-
     let currentIndex = this.nodes.length - 1;
+
+    if (currentIndex < 1) return;
 
     const currentElement = this.nodes[currentIndex]; // insert에서 push된 nodes의 마지막 요소
 
@@ -82,7 +82,6 @@ class MaxBinaryHeap {
 
 const heap = new MaxBinaryHeap();
 
-heap.extractMax();
 heap.extractMax();
 heap.extractMax();
 heap.extractMax();
