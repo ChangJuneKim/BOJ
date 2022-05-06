@@ -109,7 +109,8 @@ class BinarySearchTree {
     }
     return false;
   }
-
+  // 삭제할 노드의 1. child가 없을 때, 2. 하나일 때, 3. 두개일 때
+  // 나눠서 로직을 짜야함
   remove(value) {
     // 트리가 비었을 때
     if (this.root === null) {
@@ -190,18 +191,94 @@ class BinarySearchTree {
       }
     }
   }
+
+  BFS() {
+    const data = [];
+    const queue = [];
+
+    let node = this.root;
+
+    queue.push(node);
+
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node.value);
+
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+
+    return data;
+  }
+
+  // 전위순회 PreOrder
+  DFSPre() {
+    const data = [];
+
+    const traverse = node => {
+      data.push(node.value);
+
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    };
+
+    traverse(this.root);
+
+    return data;
+  }
+
+  // 중위순회 InOrder
+  DFSIn() {
+    const data = [];
+
+    const traverse = node => {
+      if (node.left) traverse(node.left);
+
+      data.push(node.value);
+
+      if (node.right) traverse(node.right);
+    };
+    traverse(this.root);
+
+    return data;
+  }
+
+  // 후위순회 PostOrder
+  DFSPost() {
+    const data = [];
+
+    const traverse = node => {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+
+      data.push(node.value);
+    };
+    traverse(this.root);
+
+    return data;
+  }
 }
+
+//            10
+//        6       15
+//      3   8       20
 
 const tree = new BinarySearchTree();
 
 tree.root = new Node(10);
-tree.insert(4);
-tree.insert(2);
+tree.insert(6);
+tree.insert(15);
 tree.insert(3);
-tree.insert(11);
-tree.remove(10);
-tree.find(3);
-tree.find(4);
-tree.find(10);
+tree.insert(8);
+tree.insert(20);
 
-console.log(tree.root);
+console.log(tree.BFS());
+
+// < 이진 탐색 트리일 경우 >
+// 전위순회의 결과를 이용하면 원래 트리와 똑같은 모양의 트리를 만들 수 있다
+console.log(tree.DFSPre());
+
+// 중위순회의 결과는 노드를 오름차순으로 보여준다
+console.log(tree.DFSIn());
+
+console.log(tree.DFSPost());
