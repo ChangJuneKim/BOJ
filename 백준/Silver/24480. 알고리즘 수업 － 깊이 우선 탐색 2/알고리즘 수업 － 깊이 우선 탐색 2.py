@@ -1,34 +1,38 @@
 import sys
 from collections import deque
 
-n, m, r = map(int, sys.stdin.readline().rstrip().split())
+node, edge, start = map(int, sys.stdin.readline().rstrip().split())
 
-nodes = [[] for _ in range(n+1)]
-visited = [False for _ in range(n+1)]
-nodes_cnt = [0 for _ in range(n+1)]
-for _ in range(m):
-    tail, head = map(int, sys.stdin.readline().rstrip().split())
-    nodes[tail].append(head)
-    nodes[head].append(tail)
+graph = [[] for _ in range(node + 1)]
+visited = [0] * (node + 1)
 
-for i in range(n+1):
-    nodes[i].sort()
-cnt = 1
+for i in range(edge):
+    node1, node2 = map(int, sys.stdin.readline().rstrip().split())
+    graph[node1].append(node2)
+    graph[node2].append(node1)
 
-stack = deque()
-stack.append(r)
-
-while stack:
-    cur_node = stack.pop()
-    visited[cur_node] = True
-    if nodes_cnt[cur_node] == 0:
-        nodes_cnt[cur_node] = cnt
-        cnt += 1
-
-    for next_node in nodes[cur_node]:
-        if not visited[next_node]:
-            stack.append(next_node)
+for i in graph:
+    i.sort()
 
 
-for cnt in nodes_cnt[1:]:
-    print(cnt)
+def dfs(start_node):
+    stack = deque()
+    cnt = 1
+    # 시작 노드를 stack에 넣는다
+    stack.appendleft(start_node)
+
+    # stack이 빌 때 까지
+    while stack:
+        current_node = stack.popleft()
+        # 방문 목록에 현재 노드가 없으면
+        if not visited[current_node]:
+            visited[current_node] = cnt
+            cnt += 1
+            for neighbor in graph[current_node]:
+                stack.appendleft(neighbor)
+    return visited
+
+
+result = dfs(start)
+
+print(*result[1:], sep="\n")
