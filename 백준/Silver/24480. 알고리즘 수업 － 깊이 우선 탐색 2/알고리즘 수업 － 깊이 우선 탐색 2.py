@@ -15,24 +15,24 @@ for i in graph:
     i.sort()
 
 
-def dfs(start_node):
-    stack = deque()
+def DFS(start_node):
+    #시작 노드를 스택에 담는다
+    need_visited = deque([start_node])
     cnt = 1
-    # 시작 노드를 stack에 넣는다
-    stack.appendleft(start_node)
 
-    # stack이 빌 때 까지
-    while stack:
-        current_node = stack.popleft()
-        # 방문 목록에 현재 노드가 없으면
+    while need_visited:
+        current_node = need_visited.pop()
+
+        # 아직 current_node를 방문하지 않았다면
         if not visited[current_node]:
+            #방문
             visited[current_node] = cnt
             cnt += 1
+            #방문한 노드의 인접노드를 loop하면서
             for neighbor in graph[current_node]:
-                stack.appendleft(neighbor)
-    return visited
+                # 스택에 추가한다
+                need_visited.append(neighbor)
 
+DFS(start)
 
-result = dfs(start)
-
-print(*result[1:], sep="\n")
+print(*visited[1:], sep="\n")
