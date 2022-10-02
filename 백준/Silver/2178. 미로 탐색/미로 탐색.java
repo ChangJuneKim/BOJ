@@ -1,91 +1,78 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
 public class Main {
+  int N, M;
+  int[][] maze;
+  boolean[][] visited;
 
-	class Coords {
-		int x;
-		int y;
+  int[] dx = {-1, 0, 1, 0};
+  int[] dy = {0, 1, 0, -1};
+  int answer = 1;
 
-		public Coords(int x, int y) {
-			super();
-			this.x = x;
-			this.y = y;
-		}
-	}
+  public static void main(String[] args) throws IOException {
+    new Main().solution();
+  }
 
-	int N, M;
-	int[][] maze;
-	int[][] distances;
-	
-	int[] dx = { -1, 0, 1, 0 };
-	int[] dy = { 0, 1, 0, -1 };
+  public void solution() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-	public void solution() throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+    N = Integer.parseInt(st.nextToken());
+    M = Integer.parseInt(st.nextToken());
 
-		N = Integer.valueOf(st.nextToken());
-		M = Integer.valueOf(st.nextToken());
+    maze = new int[N][M];
 
-		maze = new int[N][M];
-		distances = new int[N][M];
+    for (int i = 0; i < N; i++) {
+      String line = br.readLine();
+      for (int j = 0; j < M; j++) {
+        maze[i][j] = line.charAt(j) - '0';
+      }
+    }
 
-		for (int i = 0; i < N; i++) {
-			char[] row = br.readLine()
-					.toCharArray();
-			for (int j = 0; j < row.length; j++) {
-				maze[i][j] = row[j] - '0';
-			}
-		}
+    visited = new boolean[N][M];
+    bfs(0, 0);
+  }
 
-		bfs(0, 0);
+  private void bfs(int x, int y) {
+    ArrayDeque<int[]> queue = new ArrayDeque<>();
+    queue.offer(new int[]{x, y});
+    visited[x][y] = true;
 
-		System.out.println(distances[N - 1][M - 1]);
-//		for (int i = 0; i < distances.length; i++) {
-//			System.out.println(Arrays.toString(distances[i]));
-//		}
-	}
+    while (!queue.isEmpty()) {
+      int size = queue.size();
 
-	private void bfs(int i, int j) {
-		Queue<Coords> queue = new LinkedList<>();
-		queue.offer(new Coords(i, j));
+      for (int i = 0; i < size; i++) {
+        int[] current = queue.poll();
+        int curX = current[0];
+        int curY = current[1];
 
-		distances[i][j] = 1;
+        if (curX == N - 1 && curY == M - 1) {
+          System.out.println(answer);
+          return;
+        }
 
-		while (!queue.isEmpty()) {
-			Coords current = queue.poll();
-			int x = current.x;
-			int y = current.y;
+        for (int j = 0; j < 4; j++) {
+          int nx = curX + dx[j];
+          int ny = curY + dy[j];
 
-			// 끝까지 갔으면 break
-			if (x == N - 1 && y == M - 1) {
-				break;
-			}
+          if (isIn(nx, ny) && !visited[nx][ny] && maze[nx][ny] == 1) {
+            queue.offer(new int[]{nx, ny});
+            visited[nx][ny] = true;
+          }
+        }
+      }
 
-			for (int dir = 0; dir < 4; dir++) {
-				int nx = x + dx[dir];
-				int ny = y + dy[dir];
+      answer++;
+    }
+  }
 
-				if (isIn(nx, ny)) {
-					if (distances[nx][ny] == 0 && maze[nx][ny] == 1) {
-						queue.offer(new Coords(nx, ny));
-						distances[nx][ny] = distances[x][y] + 1;
-					}
-				}
-			}
-		}
-	}
+  private boolean isIn(int nx, int ny) {
+    return 0 <= nx && nx < N && 0 <= ny && ny < M;
+  }
 
-	private boolean isIn(int nx, int ny) {
-		return 0 <= nx && nx < N && 0 <= ny && ny < M;
-	}
 
-	public static void main(String[] args) throws IOException {
-		new Main().solution();
-	}
 }
