@@ -16,11 +16,9 @@ function solution(genres, plays) {
         map[genre].songs.sort((a, b) => b.play - a.play || a.idx - b.idx);
     }
 
-    // 총 재생 횟수가 높은 장르부터 최대 2개의 노래를 수록
-    return [].concat(
-        ...Object.values(map)
+
+    return Object.values(map)
             .sort((a, b) => b.totalPlay - a.totalPlay)
-            .map((genre) => genre.songs.slice(0, 2))
-            .map((songs) => songs.map((song) => song.idx))
-    );
+            .flatMap((genre) => genre.songs.slice(0, 2))
+            .map((song) => song.idx);
 }
