@@ -21,10 +21,8 @@ function solution(n, wires) {
     
     // 각 간선을 하나씩 제거하며 연결 성분의 크기의 차이 계산
     for (let [v1, v2] of wires) {
-        const idx1 = graph[v1].indexOf(v2);
-        const idx2 = graph[v2].indexOf(v1);
-        graph[v1].splice(idx1, 1);
-        graph[v2].splice(idx2, 1);
+        graph[v1] = graph[v1].filter(neighbor => neighbor !== v2);
+        graph[v2] = graph[v2].filter(neighbor => neighbor !== v1);
         
         let visited = Array(n + 1).fill(false);
         let count1 = dfs(graph, v1, visited);
