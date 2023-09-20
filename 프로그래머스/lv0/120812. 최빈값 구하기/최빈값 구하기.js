@@ -1,11 +1,11 @@
 function solution(array) {
-    const priorities = Array.from({length: 1000}, () => 0);
+    const priorities = Array.from({length: Math.max(...array) + 1}, () => 0);
     array.forEach(num => priorities[num]++);
     
-    const maxCount = Math.max(...priorities);
-    const freqOfMax = priorities.filter(val => val === maxCount).length;
-
-    if (freqOfMax > 1) return -1;
-
-    return priorities.indexOf(maxCount);
+    const max1 = priorities.indexOf(Math.max(...priorities));
+    const max2 = priorities.lastIndexOf(Math.max(...priorities));
+    
+    console.log(priorities)
+    
+    return max1 === max2 ? max1 : -1;
 }
