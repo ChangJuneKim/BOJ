@@ -8,7 +8,7 @@
 
 ### 분류
 
-자료 구조(data_structures), 덱(deque), 구현(implementation), 파싱(parsing), 문자열(string)
+덱, 파싱, 구현, 문자열, 자료 구조
 
 ### 문제 설명
 
