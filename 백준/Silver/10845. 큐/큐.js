@@ -1,41 +1,43 @@
 const input = require('fs').readFileSync(process.version === 'v18.17.1' ? 'input.txt' : '/dev/stdin')
   .toString().trim().split("\n");
 
-
 const solution = () => {
-  const N = +input[0];
-  const stack = [];
+  const commands = input.slice(1);
+
+  const queue = [];
   const result = [];
-  for (let i = 1; i <= N; i++) {
-    const [command, number] = input[i].split(" ").map(v => v.trim());
+
+  for (const c of commands) {
+    const [command, x] = c.split(" ");
 
     switch (command) {
       case "push":
-        stack.push(number);
+        queue.push(x);
         break;
       case "pop":
-        const front = stack.shift();
-        result.push(front ?? -1);
+        if(queue.length > 0) result.push(queue.shift());
+        else result.push(-1);
         break;
       case "size":
-        result.push(stack.length);
+        result.push(queue.length);
         break;
       case "empty":
-        result.push(stack.length > 0 ? 0 : 1);
+        queue.length > 0 ? result.push(0) : result.push(1);
         break;
       case "front":
-        result.push(stack.at(0) ?? -1);
+        if(queue.length > 0) result.push(queue.at(0));
+        else result.push(-1);
         break;
       case "back":
-        result.push(stack.at(-1) ?? -1);
+        if(queue.length > 0) result.push(queue.at(-1));
+        else result.push(-1);
         break;
       default:
         break;
     }
   }
 
-  console.log(result.join("\n"));
+  console.log(result.join('\n'));
 };
 
 solution();
-
