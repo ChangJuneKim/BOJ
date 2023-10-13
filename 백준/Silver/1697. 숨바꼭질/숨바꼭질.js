@@ -10,15 +10,16 @@ const solution = () => {
   console.log(bfs());
   function bfs() {
     const queue = [];
+    let head = 0;
     queue.push(N);
     visited[N] = true;
     let time = 0;
 
-    while (queue.length > 0) {
-      let size = queue.length;
+    while (head < queue.length) {
+      let size = queue.length - head; // 현재 레벨의 노드 수 계산
 
       for (let i = 0; i < size; i++) {
-        const current = queue.shift();
+        const current = queue[head++];
 
         if (current === K) {
           return time;
