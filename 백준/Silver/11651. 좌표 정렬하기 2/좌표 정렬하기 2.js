@@ -8,9 +8,8 @@ const solution = () => {
   const numbers = input.slice(1).map(v => v.split(" ").map(Number));
 
   numbers.sort((a, b) => {
-    if (a[1] === b[1]) return a[0] - b[0];
-    return a[1] - b[1];
-  });
+  return a[1] - b[1] || a[0] - b[0];
+    });
 
   console.log(numbers.map(v => v.join(" ")).join("\n"));
 
