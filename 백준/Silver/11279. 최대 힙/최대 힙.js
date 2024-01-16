@@ -25,7 +25,7 @@ class PriorityQueue {
   sinkDown() {
     let index = 0;
     const length = this.values.length;
-    const element = this.values[0];
+    const element = this.values[index];
 
     while (index < length) {
       let leftIndex = 2 * index + 1;
