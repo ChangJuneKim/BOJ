@@ -1,6 +1,6 @@
-const fs = require('fs');
-// const input = fs.readFileSync('input.txt').toString().trim().split('\n');
-const input = fs.readFileSync(0).toString().trim().split('\n');
+const input = require('fs').readFileSync(0)
+  .toString().trim().split("\n");
+
 class UnionFind {
   constructor(count) {
     this.count = count;
