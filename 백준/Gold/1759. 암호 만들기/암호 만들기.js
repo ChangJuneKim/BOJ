@@ -1,31 +1,37 @@
-const fs = require('fs');
-const filePath = '/dev/stdin';
+const input = require('fs').readFileSync(process.version === 'v20.9.0' ? 'input.txt' : '/dev/stdin')
+  .toString().trim().split("\n");
 
-const input = fs.readFileSync(filePath).toString().trim().split('\n');
+const solution = () => {
+  const [L, C] = input[0].split(" ").map(Number);
+  const password = input[1].split(" ").sort();
+  const aeiou = ['a', 'e', 'i', 'o', 'u'];
+  const result = Array.from({length: L}, () => "");
+  const answer = [];
 
-const [L, C] = input[0].split(' ').map(Number);
-const alphabet = input[1].split(' ').sort();
+  comb(0, 0)
 
-const aeiou = ['a', 'e', 'i', 'o', 'u'];
+  console.log(answer.join("\n"));
+  function comb(depth, start) {
+    if(depth === L){
+      let aeiouCount = 0;
 
-const answer = [];
-const solution = (str, startIndex) => {
-  if (str.length === L) {
-    let cnt = 0;
-    for (let i = 0; i < str.length; i++) {
-      if (aeiou.includes(str[i])) cnt++;
+      for(const char of result){
+        if(aeiou.includes(char)) aeiouCount++;
+      }
+
+      if(aeiouCount > 0 && L - aeiouCount > 1){
+        answer.push(result.join(""))
+      }
+      return;
     }
-    if (cnt > 0 && L - cnt > 1) {
-      answer.push(str);
-    }
-    return;
-  } else {
-    for (let i = startIndex; i < C; i++) {
-      solution(str + alphabet[i], i + 1);
+
+    for(let i = start; i < C; i++){
+      result[depth] = password[i];
+      comb(depth + 1, i + 1);
     }
   }
+
+
 };
 
-solution('', 0);
-
-console.log(answer.join('\n'));
+solution();
