@@ -1,17 +1,33 @@
-const fs = require('fs');
-const filePath = '/dev/stdin';
+const input = require('fs').readFileSync(process.version === 'v20.9.0' ? 'input.txt' : '/dev/stdin').toString().trim().split('\n');
 
-const input = fs.readFileSync(filePath).toString().trim().split('\n');
+const solution = () => {
+  const N = +input[0];
+  const Parenthesis = input.slice(1);
 
-const solution = input => {
-  const [N, ...arr] = input;
+  let result = '';
 
-  for (let i = 0; i < N; i++) {
-    while (arr[i].includes('()')) {
-      arr[i] = arr[i].replace('()', '');
+  Parenthesis.forEach(parenthesis => {
+    const stack = [];
+    let isVPS = true;
+    for (const char of parenthesis) {
+      if (char === '(') {
+        stack.push(char);
+      } else {
+        if (stack.length === 0) {
+          isVPS = false;
+          break;
+        } else {
+          stack.pop();
+        }
+      }
     }
-    arr[i].length === 0 ? console.log('YES') : console.log('NO');
-  }
+
+    if (stack.length !== 0) isVPS = false;
+
+    result += isVPS ? 'YES\n' : 'NO\n';
+  });
+
+  console.log(result.trim());
 };
 
-solution(input);
+solution();
